@@ -20,6 +20,14 @@ class Products extends Model
 
 	public $price;
 
+	public function initialize(){
+		$this->hasMany(
+			"id",
+			"ShopsProducts",
+			"shops_id"
+		);
+	}
+
 	public function validation(){
 		$validator=new Validation();
 

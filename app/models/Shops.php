@@ -12,6 +12,16 @@ class Shops extends Model
 
 	public $name;
 
+	public function initialize(){
+		$this->hasManyToMany(
+			"id",
+			"ShopsProducts",
+			"shops_id","products_id",
+			"Products",
+			"id"
+		);
+	}
+
 	public function validation(){
 		$validator=new Validation();
 

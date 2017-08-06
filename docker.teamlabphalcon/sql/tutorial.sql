@@ -68,15 +68,17 @@ UNLOCK TABLES;
 -- Table structure for table `stock`
 --
 
-DROP TABLE IF EXISTS `stocks`;
+DROP TABLE IF EXISTS `shops_products`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `stocks` (
+CREATE TABLE `shops_products` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `shop_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
+  `shops_id` int(11) DEFAULT NULL,
+  `products_id` int(11) DEFAULT NULL,
   `number` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `shops_id` (`shops_id`),
+  KEY `products_id` (`products_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -84,7 +86,7 @@ CREATE TABLE `stocks` (
 -- Dumping data for table `stock`
 --
 
-LOCK TABLES `stocks` WRITE;
+LOCK TABLES `shops_products` WRITE;
 /*!40000 ALTER TABLE `stock` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stock` ENABLE KEYS */;
 UNLOCK TABLES;
