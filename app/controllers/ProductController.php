@@ -55,7 +55,8 @@ class ProductController extends Controller{
 
 		//画像絶対必要
 		if(!$tmpname){
-			echo "image required";
+			echo "image required"."<br>";
+			echo "<a href='/product'>戻る</a>";
 			return;
 		}
 
@@ -67,7 +68,8 @@ class ProductController extends Controller{
 
 		//形式がpng,jpeg,gif以外だったら処理終了
 		if(!$extension){
-			echo "image gif,jpeg,png only";
+			echo "image gif,jpeg,png only"."<br>";
+			echo "<a href='/product'>戻る</a>";
 			return;
 		}
 
@@ -121,7 +123,8 @@ class ProductController extends Controller{
 
 			//形式がpng,jpeg,gif以外だったら処理終了
 			if(!$extension){
-				echo "image gif,jpeg,png only";
+				echo "image gif,jpeg,png only"."<br>";
+				echo "<a href='/product'>戻る</a>";
 				return;
 			}
 
