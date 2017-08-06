@@ -1,0 +1,30 @@
+<h1>INDEX</h1>
+<table id="table" border=1>
+	<tr><th>ID</th><th>商品画像</th><th>商品タイトル</th><th>説明文</th><th>価格</th><th>編集</th></tr>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+$(function(){
+	var arg = new Object;
+	var pair=location.search.substring(1).split('&');
+	for(var i=0;pair[i];i++) {
+		var kv = pair[i].split('=');
+		arg[kv[0]]=kv[1];
+	}
+
+
+	$.ajax({
+		url:"/product/get?id=".arg.id,
+		type:"get"
+	}).done(function(data){
+		var id=data[i].id;
+		var img="<img src='/product_images/"+data[i].image+"'>";
+		var title=data[i].title;
+		var description=data[i].description;
+		var price=data[i].price;
+		var edit="<a href='/product/show?id="+data[i].id+"''>"+"編集"+"</a>";
+		$("#table").append("<tr><td>"+id+"</td><td>"+img+"</td><td>"+title+"</td><td>"+description+"</td><td>"+price+"</td><td>"+edit+"</td></tr>");
+	});
+});
+</script>

@@ -19,11 +19,6 @@ class ProductController extends Controller{
 
 	}
 
-	//一つの記事を表示する→edit/destroy
-	public function showAction(){
-
-	}
-
 	//色々と指定すると商品情報が返ってくるAPI(json)
 	public function getAction(){
 		//id指定でのget

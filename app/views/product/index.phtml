@@ -1,6 +1,6 @@
 <h1>INDEX</h1>
 <table id="table" border=1>
-	<tr><th>ID</th><th>商品画像</th><th>商品タイトル</th><th>説明文</th><th>価格</th><th>編集</th></tr>
+	<tr><th>ID</th><th>商品画像</th><th>商品タイトル</th><th>説明文</th><th>価格</th><th>編集</th><th>削除</th></tr>
 </table>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -16,8 +16,12 @@ $(function(){
 			var title=data[i].title;
 			var description=data[i].description;
 			var price=data[i].price;
-			var edit="<a href='/product/show?id="+data[i].id+"''>"+"編集"+"</a>";
-			$("#table").append("<tr><td>"+id+"</td><td>"+img+"</td><td>"+title+"</td><td>"+description+"</td><td>"+price+"</td><td>"+edit+"</td></tr>");
+			var edit="<a href='/product/edit?id="+data[i].id+"''>"+"編集"+"</a>";
+			var destroy='<form action="/product/destroy" method="POST">';
+			destroy+='<input type="hidden" name="id" value="'+data[i].id+'">';
+			destroy+='<input type="submit" value="Destroy">';
+			destroy+='</form>';
+			$("#table").append("<tr><td>"+id+"</td><td>"+img+"</td><td>"+title+"</td><td>"+description+"</td><td>"+price+"</td><td>"+edit+"</td><td>"+destroy+"</td></tr>");
 		}
 	});
 });
