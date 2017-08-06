@@ -29,41 +29,27 @@ class ProductController extends Controller{
 		$product=new Products();
 
 		$tmpname=$_FILES["image"]["tmp_name"];
-		$filename="./product_images/".time().uniqid().".png";
-		move_uploaded_file($tmpname,$filename);
+		$filename=time().uniqid().".png";
+		move_uploaded_file($tmpname,"./product_images/".$filename);
 
 		$post=$this->request->getPost();
 
 		$success=$product->save(
-			array($filename,$post["title"],$post["description"],$post["price"]),
+			array("image"=>$filename,"title"=>$post["title"],"description"=>$post["description"],"price"=>$post["price"]),
 			array("image","title","description","price")
 		);
-	}
 
-	/*
-	public function registerAction()
-	{
-
-		$user = new Users();
-
-		// Store and check for errors
-		$success = $user->save(
-			$this->request->getPost(),
-			array('name', 'email')
-		);
-
-		if ($success) {
-			echo "Thanks for registering!";
-		} else {
-			echo "Sorry, the following problems were generated: ";
-			foreach ($user->getMessages() as $message) {
-				echo $message->getMessage(), "<br/>";
+		if($success){
+			echo "success!";
+		}else{
+			echo "The following problems were generated!";
+			foreach($product->getMessages() as $message){
+				echo $message->getMessage();
 			}
 		}
 
 		$this->view->disable();
 	}
-	*/
 
 	//更新処理
 	public function updateAction(){
