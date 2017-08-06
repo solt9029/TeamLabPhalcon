@@ -1,0 +1,26 @@
+<h1>INDEX</h1>
+<a href="/shop/create">新規作成</a>
+<table id="table" border=1>
+	<tr><th>ID</th><th>店名</th><th>編集</th><th>削除</th></tr>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+$(function(){
+	$.ajax({
+		url:"/shop/get",
+		type:"get"
+	}).done(function(data){
+		for(var i=0; i<data.length; i++){
+			var id=data[i].id;
+			var name=data[i].name;
+			var edit="<a href='/shop/edit?id="+data[i].id+"''>"+"編集"+"</a>";
+			var destroy='<form action="/shop/destroy" method="POST">';
+			destroy+='<input type="hidden" name="id" value="'+data[i].id+'">';
+			destroy+='<input type="submit" value="Destroy">';
+			destroy+='</form>';
+			$("#table").append("<tr><td>"+id+"</td><td>"+name+"</td><td>"+edit+"</td><td>"+destroy+"</td></tr>");
+		}
+	});
+});
+</script>

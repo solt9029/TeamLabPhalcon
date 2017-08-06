@@ -68,10 +68,10 @@ UNLOCK TABLES;
 -- Table structure for table `stock`
 --
 
-DROP TABLE IF EXISTS `stock`;
+DROP TABLE IF EXISTS `stocks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `stock` (
+CREATE TABLE `stocks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `shop_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE `stock` (
 -- Dumping data for table `stock`
 --
 
-LOCK TABLES `stock` WRITE;
+LOCK TABLES `stocks` WRITE;
 /*!40000 ALTER TABLE `stock` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stock` ENABLE KEYS */;
 UNLOCK TABLES;
