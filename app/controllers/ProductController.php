@@ -21,13 +21,21 @@ class ProductController extends Controller{
 
 	//一つの記事を表示する→edit/destroy
 	public function showAction(){
-		$id=$this->request->getQuery("id","int");
 
-		$this->view->disable();
 	}
 
 	//色々と指定すると商品情報が返ってくるAPI(json)
 	public function getAction(){
+		//id指定でのget
+		if($this->request->getQuery("id","int")){
+			$id=$this->request->getQuery("id","int");
+			$product=Products::findFirst($id);
+			$product=json_encode($product,JSON_NUMERIC_CHECK);
+			$this->response->setContentType("application/json","UTF-8");
+			return $product;
+		}
+
+		//全てを返す
 		$products=Products::find();
 		$products=$products->toArray();
 		$products=json_encode($products,JSON_NUMERIC_CHECK);
