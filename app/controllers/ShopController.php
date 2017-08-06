@@ -15,6 +15,16 @@ class ShopController extends Controller{
 
 	}
 
+	//商品登録画面
+	public function registerAction(){
+
+	}
+
+	//商品登録処理
+	public function addAction(){
+		
+	}
+
 	public function getAction(){
 		if($this->request->getQuery("id","int")){
 			$id=$this->request->getQuery("id","int");

@@ -1,0 +1,46 @@
+<h1>REGISTER</h1>
+
+<p>
+	<label for="id">Id</label>
+	<span id="id"></span>
+</p>
+
+<p>
+	<label for="name">Name</label>
+	<span id="name"></span>
+</p>
+
+<form action="/shop/add" method="POST">
+
+</form>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+$(function(){
+	var arg = new Object;
+	var pair=location.search.substring(1).split('&');
+	for(var i=0;pair[i];i++) {
+		var kv = pair[i].split('=');
+		arg[kv[0]]=kv[1];
+	}
+
+	$.ajax({
+		url:"/shop/get?id="+arg.id,
+		type:"get"
+	}).done(function(data){
+		//何も帰ってこなかったらそのidの商品は存在しないよ
+		if(!data){
+			location.href="/shop";//topに移動する
+		}
+		
+		var id='<input type="hidden" name="id" value="'+data.id+'">';
+		$("form").append(id);
+		$("#id").append(data.id);
+		$("#name").append(data.name);
+	});
+
+	$.ajax({
+		
+	});
+});
+</script>

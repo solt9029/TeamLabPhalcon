@@ -1,7 +1,7 @@
 <h1>INDEX</h1>
 <a href="/shop/create">新規作成</a>
 <table id="table" border=1>
-	<tr><th>ID</th><th>店名</th><th>編集</th><th>削除</th></tr>
+	<tr><th>ID</th><th>店名</th><th>編集</th><th>削除</th><th>商品登録</th></tr>
 </table>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -19,7 +19,8 @@ $(function(){
 			destroy+='<input type="hidden" name="id" value="'+data[i].id+'">';
 			destroy+='<input type="submit" value="Destroy">';
 			destroy+='</form>';
-			$("#table").append("<tr><td>"+id+"</td><td>"+name+"</td><td>"+edit+"</td><td>"+destroy+"</td></tr>");
+			var register="<a href='/shop/register?id="+data[i].id+"''>"+"商品登録"+"</a>";
+			$("#table").append("<tr><td>"+id+"</td><td>"+name+"</td><td>"+edit+"</td><td>"+destroy+"</td><td>"+register+"</td></tr>");
 		}
 	});
 });
