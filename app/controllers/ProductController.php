@@ -6,7 +6,7 @@ class ProductController extends Controller{
 
 	//一覧を表示する→create/show
 	public function indexAction(){
-		
+
 	}
 
 	//新規作成画面→store
@@ -21,7 +21,9 @@ class ProductController extends Controller{
 
 	//一つの記事を表示する→edit/destroy
 	public function showAction(){
+		$id=$this->request->getQuery("id","int");
 
+		$this->view->disable();
 	}
 
 	//色々と指定すると商品情報が返ってくるAPI(json)
@@ -35,6 +37,11 @@ class ProductController extends Controller{
 
 	//新規作成したものを保存する
 	public function storeAction(){
+		//POSTじゃなかったら終了処理
+		if(!$this->request->isPost()){
+			return;
+		}
+
 		$tmpname=$_FILES["image"]["tmp_name"];
 
 		//画像絶対必要

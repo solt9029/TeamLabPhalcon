@@ -16,7 +16,7 @@ $(function(){
 			var title=data[i].title;
 			var description=data[i].description;
 			var price=data[i].price;
-			var edit="<a href='/product/edit/"+data[i].id+"''>"+"編集"+"</a>";
+			var edit="<a href='/product/show?id="+data[i].id+"''>"+"編集"+"</a>";
 			$("#table").append("<tr><td>"+id+"</td><td>"+img+"</td><td>"+title+"</td><td>"+description+"</td><td>"+price+"</td><td>"+edit+"</td></tr>");
 		}
 	});
