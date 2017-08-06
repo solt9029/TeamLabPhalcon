@@ -1,10 +1,6 @@
 <?php
 
 use Phalcon\Mvc\Controller;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Numericality;
-use Phalcon\Validation\Validator\StringLength;
-use Phalcon\Validation\Validator\PresenceOf;
 
 class ProductController extends Controller{
 
@@ -26,6 +22,15 @@ class ProductController extends Controller{
 	//一つの記事を表示する→edit/destroy
 	public function showAction(){
 
+	}
+
+	//色々と指定すると商品情報が返ってくるAPI(json)
+	public function getAction(){
+		$products=Products::find();
+		$products=$products->toArray();
+		$products=json_encode($products,JSON_NUMERIC_CHECK);
+		$this->response->setContentType('application/json', 'UTF-8');
+		return $products;
 	}
 
 	//新規作成したものを保存する
