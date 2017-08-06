@@ -114,6 +114,7 @@ class ProductController extends Controller{
 
 		$tmpname=$_FILES["image"]["tmp_name"];
 
+		//画像がある場合には、形式を確認したりする。ない場合には前の画像をそのままにする
 		if($tmpname){
 			$extension=array_search(mime_content_type($tmpname),array(
 				"gif"=>"image/gif",
@@ -159,9 +160,20 @@ class ProductController extends Controller{
 
 	//削除処理
 	public function destroyAction(){
+		//POSTじゃなかったら終了処理
+		if(!$this->request->isPost()){
+			return;
+		}
+
 		$post=$this->request->getPost();
 		$id=$post["id"];
 		$product=Products::findFirst($id);
+
+		//htmlが書き換えられたりして、destroy対象のidが存在しない場合はトップに戻るよ
+		if(!$product){
+			header("location:/product");
+		}
+
 		if($product->delete()){
 			echo "success!"."<br>";
 		}else{
