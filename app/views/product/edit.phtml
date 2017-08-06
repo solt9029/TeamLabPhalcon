@@ -1,0 +1,57 @@
+<h1>EDIT</h1>
+
+<form enctype="multipart/form-data" action="/product/update" method="POST">
+
+	<!-- 元々の画像が表示される場所 -->
+	<p id="preview_image">
+
+	</p>
+
+	<p>
+		<label for="image">Image</label>
+		<input type="file" id="image" name="image">
+	</p>
+
+	<p>
+		<label for="title">Title</label>
+		<input type="text" id="title" name="title">
+	</p>
+
+	<p>
+		<label for="description">Description</label>
+		<textarea id="description" name="description"></textarea>
+	</p>
+
+	<p>
+		<label for="price">Price</label>
+		<input type="text" id="price" name="price">
+	</p>
+
+	<p>
+		<input type="submit" value="Store">
+	</p>
+
+</form>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+$(function(){
+	var arg = new Object;
+	var pair=location.search.substring(1).split('&');
+	for(var i=0;pair[i];i++) {
+	    var kv = pair[i].split('=');
+	    arg[kv[0]]=kv[1];
+	}
+
+	$.ajax({
+		url:"/product/get?id="+arg.id,
+		type:"get"
+	}).done(function(data){
+		var img="<img src='/product_images/"+data.image+"'>";
+		$("#preview_image").append(img);
+		$("#title").val(data.title);
+		$("#description").val(data.description);
+		$("#price").val(data.price);
+	});
+});
+</script>
