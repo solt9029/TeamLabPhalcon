@@ -99,7 +99,19 @@ class ProductController extends Controller{
 
 	//削除処理
 	public function destroyAction(){
+		$post=$this->request->getPost();
+		$id=$post["id"];
+		$product=Products::findFirst($id);
+		if($product->delete()){
+			echo "success!";
+		}else{
+			echo "The following problems were generated!";
+			foreach($product->getMessages() as $message){
+				echo $message->getMessage()."<br>";
+			}
+		}
 
+		$this->view->disable();
 	}
 
 }
