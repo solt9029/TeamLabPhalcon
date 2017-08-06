@@ -81,13 +81,15 @@ class ProductController extends Controller{
 		);
 
 		if($success){
-			echo "success!";
+			echo "success!"."<br>";
 		}else{
 			echo "The following problems were generated!"."<br>";
 			foreach($product->getMessages() as $message){
 				echo $message->getMessage()."<br>";
 			}
 		}
+
+		echo "<a href='/product'>戻る</a>";
 
 		$this->view->disable();
 	}
@@ -103,13 +105,15 @@ class ProductController extends Controller{
 		$id=$post["id"];
 		$product=Products::findFirst($id);
 		if($product->delete()){
-			echo "success!";
+			echo "success!"."<br>";
 		}else{
 			echo "The following problems were generated!";
 			foreach($product->getMessages() as $message){
 				echo $message->getMessage()."<br>";
 			}
 		}
+
+		echo "<a href='/product'>戻る</a>";
 
 		$this->view->disable();
 	}
