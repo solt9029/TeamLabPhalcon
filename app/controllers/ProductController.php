@@ -25,6 +25,12 @@ class ProductController extends Controller{
 		if($this->request->getQuery("id","int")){
 			$id=$this->request->getQuery("id","int");
 			$product=Products::findFirst($id);
+
+			//見つからなかったらfalseを返す
+			if(!$product){
+				return false;
+			}
+
 			$product=json_encode($product,JSON_NUMERIC_CHECK);
 			$this->response->setContentType("application/json","UTF-8");
 			return $product;
@@ -96,7 +102,56 @@ class ProductController extends Controller{
 
 	//更新処理
 	public function updateAction(){
+		//POSTじゃなかったら終了処理
+		if(!$this->request->isPost()){
+			return;
+		}
 
+		$post=$this->request->getPost();
+		$product=Products::findFirst($post["id"]);
+
+		$tmpname=$_FILES["image"]["tmp_name"];
+
+		if($tmpname){
+			$extension=array_search(mime_content_type($tmpname),array(
+				"gif"=>"image/gif",
+				"jpg"=>"image/jpeg",
+				"png"=>"image/png"
+			),true);
+
+			//形式がpng,jpeg,gif以外だったら処理終了
+			if(!$extension){
+				echo "image gif,jpeg,png only";
+				return;
+			}
+
+			//ファイルサイズvalidationがあっても良いかも（省略）
+
+			//product_imagesフォルダに保存する
+			$filename=time().uniqid().".".$extension;
+			move_uploaded_file($tmpname,"./product_images/".$filename);
+
+			$product->image=$filename;
+		}
+
+		$product->title=$post["title"];
+		$product->description=$post["description"];
+		$product->price=$post["price"];
+
+		$success=$product->save();
+
+		if($success){
+			echo "success!"."<br>";
+		}else{
+			echo "The following problems were generated!"."<br>";
+			foreach($product->getMessages() as $message){
+				echo $message->getMessage()."<br>";
+			}
+		}
+
+		echo "<a href='/product'>戻る</a>";
+
+		$this->view->disable();
 	}
 
 	//削除処理

@@ -47,11 +47,18 @@ $(function(){
 		url:"/product/get?id="+arg.id,
 		type:"get"
 	}).done(function(data){
+		//何も帰ってこなかったらそのidの商品は存在しないよ
+		if(!data){
+			location.href="/product";//topに移動する
+		}
+
 		var img="<img src='/product_images/"+data.image+"'>";
+		var id='<input type="hidden" name="id" value="'+data.id+'">';
 		$("#preview_image").append(img);
 		$("#title").val(data.title);
 		$("#description").val(data.description);
 		$("#price").val(data.price);
+		$("form").append(id);
 	});
 });
 </script>
