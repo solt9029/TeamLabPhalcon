@@ -1,6 +1,10 @@
 <?php
 
 use Phalcon\Mvc\Controller;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Numericality;
+use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Validation\Validator\PresenceOf;
 
 class ProductController extends Controller{
 
@@ -26,12 +30,34 @@ class ProductController extends Controller{
 
 	//新規作成したものを保存する
 	public function storeAction(){
-		$product=new Products();
-
 		$tmpname=$_FILES["image"]["tmp_name"];
-		$filename=time().uniqid().".png";
+
+		//画像絶対必要
+		if(!$tmpname){
+			echo "image required";
+			return;
+		}
+
+		$extension=array_search(mime_content_type($tmpname),array(
+			"gif"=>"image/gif",
+			"jpg"=>"image/jpeg",
+			"png"=>"image/png"
+		),true);
+
+		//形式がpng,jpeg,gif以外だったら処理終了
+		if(!$extension){
+			echo "image gif,jpeg,png only";
+			return;
+		}
+
+		//ファイルサイズvalidationがあっても良いかも（省略）
+
+		//product_imagesフォルダに保存する
+		$filename=time().uniqid().".".$extension;
 		move_uploaded_file($tmpname,"./product_images/".$filename);
 
+		//画像以外のバリデーションをする
+		$product=new Products();
 		$post=$this->request->getPost();
 
 		$success=$product->save(
@@ -42,9 +68,9 @@ class ProductController extends Controller{
 		if($success){
 			echo "success!";
 		}else{
-			echo "The following problems were generated!";
+			echo "The following problems were generated!"."<br>";
 			foreach($product->getMessages() as $message){
-				echo $message->getMessage();
+				echo $message->getMessage()."<br>";
 			}
 		}
 
