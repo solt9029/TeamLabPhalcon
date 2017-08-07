@@ -5,7 +5,7 @@ use Phalcon\Mvc\Model;
 // use Phalcon\Validation\Validator\StringLength;
 // use Phalcon\Validation\Validator\PresenceOf;
 
-class Shops extends Model
+class ShopsProducts extends Model
 {
 
 	public $id;
@@ -15,6 +15,7 @@ class Shops extends Model
 	public $products_id;
 
 	public $number;
+
 
 	public function initialize(){
 		$this->belongsTo(

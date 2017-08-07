@@ -11,7 +11,13 @@
 </p>
 
 <form action="/shop/add" method="POST">
+	<table id="table" border=1>
+		<tr><th>ID</th><th>商品画像</th><th>商品タイトル</th><th>説明文</th><th>価格</th><th>数量</th></tr>
+	</table>
 
+	<p>
+		<input type="submit" value="Add">
+	</p>
 </form>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -24,6 +30,7 @@ $(function(){
 		arg[kv[0]]=kv[1];
 	}
 
+	//お店を取得する
 	$.ajax({
 		url:"/shop/get?id="+arg.id,
 		type:"get"
@@ -39,8 +46,53 @@ $(function(){
 		$("#name").append(data.name);
 	});
 
+	//全ての商品を取得する
 	$.ajax({
-		
+		url:"/product/get",
+		type:"get"
+	}).done(function(data){
+		for(var i=0; i<data.length; i++){
+			var id=data[i].id;
+			var img="<img src='/product_images/"+data[i].image+"'>";
+			var title=data[i].title;
+			var description=data[i].description;
+			var price=data[i].price;
+			var number='<input type="text" id="'+data[i].id+'" name="number['+data[i].id+']" value="0">';
+			$("#table").append("<tr><td>"+id+"</td><td>"+img+"</td><td>"+title+"</td><td>"+description+"</td><td>"+price+"</td><td>"+number+"</td></tr>");
+		}
+	});
+
+	//ショップに属している商品情報のみを取得する
+	$.ajax({
+		url:"/shop/getProducts?id="+arg.id,
+		type:"get"
+	}).done(function(data){
+		for(var i=0; i<data.length; i++){
+			$("#"+data[i].id).val(data[i].number);
+		}
 	});
 });
+
+/*
+$(function(){
+	$.ajax({
+		url:"/product/get",
+		type:"get"
+	}).done(function(data){
+		for(var i=0; i<data.length; i++){
+			var id=data[i].id;
+			var img="<img src='/product_images/"+data[i].image+"'>";
+			var title=data[i].title;
+			var description=data[i].description;
+			var price=data[i].price;
+			var edit="<a href='/product/edit?id="+data[i].id+"''>"+"編集"+"</a>";
+			var destroy='<form action="/product/destroy" method="POST">';
+			destroy+='<input type="hidden" name="id" value="'+data[i].id+'">';
+			destroy+='<input type="submit" value="Destroy">';
+			destroy+='</form>';
+			$("#table").append("<tr><td>"+id+"</td><td>"+img+"</td><td>"+title+"</td><td>"+description+"</td><td>"+price+"</td><td>"+edit+"</td><td>"+destroy+"</td></tr>");
+		}
+	});
+});
+*/
 </script>
