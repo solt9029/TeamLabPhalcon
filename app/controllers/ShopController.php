@@ -22,7 +22,57 @@ class ShopController extends Controller{
 
 	//商品登録処理
 	public function addAction(){
+		if(!$this->request->isPost()){
+			return;
+		}
 
+		$post=$this->request->getPost();
+
+		//最後に出力するメッセージ
+		$messages=array();
+
+		foreach($post["number"] as $index => $number){
+			$shopProduct=ShopsProducts::findFirst(
+				[
+					"shops_id = :shops_id: AND products_id = :products_id:",
+					"bind" => [
+						"shops_id" => $post["id"],
+						"products_id" => $index
+					]
+				]
+			);
+
+			//もしテーブルに存在しなかったら、すなわち初めてだったら
+			if(!$shopProduct){
+				$shopProduct=new ShopsProducts();
+				$success=$shopProduct->save(
+					array("shops_id"=>$post["id"],"products_id"=>$index,"number"=>$number),
+					array("shops_id","products_id","number")
+				);
+			}else{//テーブルにあったら普通に更新するよ
+				$shopProduct->number=$number;
+				$success=$shopProduct->save();
+			}
+
+			if(!$success){
+				foreach($shopProduct->getMessages() as $message){
+					$messages[]=$message->getMessage()."<br>";
+				}
+			}
+		}
+
+		if(count($messages)>0){
+			echo "The following problems were generated!"."<br>";
+			foreach($messages as $message){
+				echo $message;
+			}
+		}else{
+			echo "success!"."<br>";
+		}
+
+		echo "<a href='/shop'>戻る</a>";
+
+		$this->view->disable();
 	}
 
 	//shopに属しているproductsを返す
@@ -143,6 +193,30 @@ class ShopController extends Controller{
 
 		if($shop->delete()){
 			echo "success!"."<br>";
+
+			/*** shops_productsテーブルの中から削除したやつと同じshops_idのものを削除するよ！ ***/
+			$shopsProducts=ShopsProducts::find(
+				[
+					"shops_id = :shops_id:",
+					"bind" => [
+						"shops_id" => $id
+					]
+				]
+			);
+
+			foreach($shopsProducts as $shopProduct){
+				$success=$shopProduct->delete();
+
+				//削除が失敗してたらエラー出す
+				if(!$success){
+					echo "The following problems were generated!";
+					foreach($shopProduct->getMessages() as $message){
+						echo $message->getMessage()."<br>";
+					}
+				}
+			}
+			/*** shops_productsテーブルの中から削除したやつと同じshops_idのものを削除するよ！ ***/
+
 		}else{
 			echo "The following problems were generated!";
 			foreach($shop->getMessages() as $message){
@@ -155,3 +229,15 @@ class ShopController extends Controller{
 		$this->view->disable();
 	}
 }
+
+/*
+			$shopProduct=ShopsProducts::findFirst(
+				[
+					"shops_id = :shops_id: AND products_id = :products_id:",
+					"bind" => [
+						"shops_id" => $post["id"],
+						"products_id" => $index
+					]
+				]
+			);
+*/

@@ -176,6 +176,30 @@ class ProductController extends Controller{
 
 		if($product->delete()){
 			echo "success!"."<br>";
+
+			/*** shops_productsテーブルの中から削除したやつと同じproducts_idのものを削除するよ！ ***/
+			$shopsProducts=ShopsProducts::find(
+				[
+					"products_id = :products_id:",
+					"bind" => [
+						"products_id" => $id
+					]
+				]
+			);
+
+			foreach($shopsProducts as $shopProduct){
+				$success=$shopProduct->delete();
+
+				//削除が失敗してたらエラー出す
+				if(!$success){
+					echo "The following problems were generated!";
+					foreach($shopProduct->getMessages() as $message){
+						echo $message->getMessage()."<br>";
+					}
+				}
+			}
+			/*** shops_productsテーブルの中から削除したやつと同じproducts_idのものを削除するよ！ ***/
+
 		}else{
 			echo "The following problems were generated!";
 			foreach($product->getMessages() as $message){

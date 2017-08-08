@@ -30,6 +30,10 @@ $(function(){
 		arg[kv[0]]=kv[1];
 	}
 
+	if(!arg.id){
+		location.href="/shop";
+	}
+
 	//お店を取得する
 	$.ajax({
 		url:"/shop/get?id="+arg.id,
@@ -72,27 +76,4 @@ $(function(){
 		}
 	});
 });
-
-/*
-$(function(){
-	$.ajax({
-		url:"/product/get",
-		type:"get"
-	}).done(function(data){
-		for(var i=0; i<data.length; i++){
-			var id=data[i].id;
-			var img="<img src='/product_images/"+data[i].image+"'>";
-			var title=data[i].title;
-			var description=data[i].description;
-			var price=data[i].price;
-			var edit="<a href='/product/edit?id="+data[i].id+"''>"+"編集"+"</a>";
-			var destroy='<form action="/product/destroy" method="POST">';
-			destroy+='<input type="hidden" name="id" value="'+data[i].id+'">';
-			destroy+='<input type="submit" value="Destroy">';
-			destroy+='</form>';
-			$("#table").append("<tr><td>"+id+"</td><td>"+img+"</td><td>"+title+"</td><td>"+description+"</td><td>"+price+"</td><td>"+edit+"</td><td>"+destroy+"</td></tr>");
-		}
-	});
-});
-*/
 </script>

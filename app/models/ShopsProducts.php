@@ -1,9 +1,9 @@
 <?php
 
 use Phalcon\Mvc\Model;
-// use Phalcon\Validation;
-// use Phalcon\Validation\Validator\StringLength;
-// use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Numericality;
+use Phalcon\Validation\Validator\PresenceOf;
 
 class ShopsProducts extends Model
 {
@@ -29,5 +29,29 @@ class ShopsProducts extends Model
 			"Products",
 			"id"
 		);
+	}
+
+	public function validation(){
+		$validator=new Validation();
+
+		$validator->add(
+			"number",
+			new Numericality(
+				[
+					"message"=>"number number only"
+				]
+			)
+		);
+
+		$validator->add(
+			"number",
+			new PresenceOf(
+				[
+					"message"=>"number required"
+				]
+			)
+		);		
+
+		return $this->validate($validator);
 	}
 }
