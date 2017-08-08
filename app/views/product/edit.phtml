@@ -43,6 +43,10 @@ $(function(){
 		arg[kv[0]]=kv[1];
 	}
 
+	if(!arg.id){
+		location.href="/product";
+	}
+
 	$.ajax({
 		url:"/product/get?id="+arg.id,
 		type:"get"
