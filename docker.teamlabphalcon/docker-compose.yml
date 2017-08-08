@@ -6,8 +6,7 @@ services:
     restart: always
     working_dir: /project
     ports:
-      - "80:80"
-      - "443:443"
+      - "8009:80"
     volumes:
       - ../:/project
       - ./cache:/project/cache
@@ -22,8 +21,6 @@ services:
     image: mysql:5.7
     expose:
       - "3306"
-    ports:
-      - "3306:3306"
     volumes:
       - ./sql:/docker-entrypoint-initdb.d
     env_file:
